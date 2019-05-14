@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/javascripts/appJQ.js"></script>
+    <script type="application/javascript">
+      
+    </script>
+    <title>Home</title>
+  </head>
+  <body>
+        <% var options = request; %>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/home">WebVideos</a>
+            <span class="navbar-text">
+               <%= options.session.username %>
+            </span>
+        </nav>        
+        <form action="/video" method="POST">
+          <input type = "hidden" name = "token"      value = "<%= options.session.token %>" />
+          <input type = "hidden" name = "username"   value = "<%= options.session.username %>" />
+          <input type = "hidden" name = "curso"      value = "test.mp4" />
+          <input type="submit" class="btn btn-primary" />
+        </form>
+  </body>
+</html>

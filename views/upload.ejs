@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/javascripts/appJQ.js"></script>
+    <script type="application/javascript">
+      
+    </script>
+    <title>Home</title>
+  </head>
+  <body>
+        <% var options = request; %>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/home">WebVideos</a>
+            <span class="navbar-text">
+               <%= options.session.username %>
+            </span>
+        </nav>        
+        
+        <form action='/videos' method="POST" enctype="multipart/form-data">
+          <input type="text" name="name" placeholder="Video Name" required>
+          <input type="file" name="file">
+          <input type="submit" value="Upload">
+        </form>
+
+  </body>
+</html>
