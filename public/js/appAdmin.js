@@ -1,5 +1,29 @@
 $(document).ready(function () {
 
+    ListPersona();
+
+    function ListPersona(){
+        $.ajax({
+            url: 'persona/persona',
+            method: "GET",
+            cache: false,
+            data: { },
+            success: function (response) {
+                for(var i = 0; i < response.length; i++){
+                    $('#tableUsuarios').DataTable().row.add([
+                        response[i].Nombre,
+                        response[i].Apellido,
+                        response[i].Correo,
+                        response[i].Usuario
+                    ]).draw(false);
+                }
+
+            },
+        });
+    }
+
+
+
 $('#table').DataTable({
     responsive: true,
     dom: 'lBfrtip',

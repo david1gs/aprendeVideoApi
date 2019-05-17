@@ -7,6 +7,7 @@ var fileUpload  = require('express-fileupload')
 var index   = require('./routes/index');
 var account = require('./routes/account');
 var video   = require('./routes/video');
+var persona   = require('./routes/persona');
 
 var port    = 3000;
 var app     = express();
@@ -24,6 +25,7 @@ app.use( bodyParser.urlencoded({extended: false}));
 app.use('/', index);
 app.use('/account', account);
 app.use('/videos', video);
+app.use('/persona', persona);
 
 
 // Set public folder
