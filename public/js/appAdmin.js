@@ -50,4 +50,26 @@ $('#table').DataTable({
 $('.btnExcel').prepend("<i class='fas fa-file-excel mr-2'></i>");
 $('.btnPdf').prepend("<i class='far fa-file-pdf mr-2'></i>");
 
+/* LIMPIAR MODALES */
+
+$("body").on("click", "#btnAgregarPersona", function () {
+    $("#agregar-nombre").val("");
+    $("#agregar-primerApellido").val("");
+    $("#agregar-correo").val("");
+    $("#agregar-password").val("");
+    $("#agregar-password2").val("");
+
+});
+
+$("body").on("click", "#editarCerrar", function () {
+
+    $("#agregar-nombre").val("");
+    $("#agregar-primerApellido").val("");
+    $("#agregar-correo").val("");
+    $("#agregar-password").val("");
+    $("#agregar-password2").val("");
+
+
+});
+
 });

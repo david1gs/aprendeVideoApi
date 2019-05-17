@@ -26,7 +26,7 @@ exports.persona_list = (req, res, next) => {
 exports.persona = (req, res, next) => {   
     let connection = mysql.createConnection(config);
     connection.connect(); 
-    connection.query('', [], function (error, results, fields) {
+    connection.query('SELECT * FROM cuenta c JOIN persona p ON p.idCuenta=c.idCuenta WHERE (Baja=0 AND c.idCuenta=?)', [req.params.id], function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
@@ -66,10 +66,11 @@ exports.persona_update = (req, res, next) => {
     connection.query('UPDATE Cuenta SET Usuario=?, Contrasena=?, Correo=? WHERE (idCuenta=?)', [req.body.Usuario, req.body.Contrasena, req.body.Correo, req.body.idCuenta], function (error, results, fields) {
         if (error) throw error;
         //res.json(results);
+        connection.query('UPDATE Persona SET Nombre=?, Apellido=? WHERE (idCuenta=?)', [req.body.Nombre, req.body.Apellido, req.body.idCuenta], function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
+        });
+        connection.end();
     });
-    connection.query('UPDATE Persona SET Nombre=?, Apellido=? WHERE (idCuenta=?)', [req.body.Nombre, req.body.Apellido, req.body.idCuenta], function (error, results, fields) {
-        if (error) throw error;
-        //res.json(results);
-    });
-    connection.end();
+    
 }

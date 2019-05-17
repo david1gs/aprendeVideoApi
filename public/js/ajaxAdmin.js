@@ -1,8 +1,12 @@
+
 $(document).ready(function () {
 
     /////////////////////////////// GESTION USUARIOS
 
     /**LISTAR USUARIO */
+    var recupera = 0;
+
+    
 
     ListPersona();
 
@@ -20,7 +24,7 @@ $(document).ready(function () {
                         response[i].Apellido,
                         response[i].Correo,
                         response[i].Usuario,
-                        "<button class='btn btn-primary editarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-edit'></i> Editar</button><button class='btn btn-danger eliminarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-trash-alt'></i> Eliminar</button>"
+                        "<button class='btn btn-primary editarPersona' data-id='" + response[i].idCuenta + "' data-toggle='modal' data-target='#modalEditarPersona'><i class='fas fa-edit'></i> Editar</button><button class='btn btn-danger eliminarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-trash-alt'></i> Eliminar</button>"
                     ]).draw(false);
                 }
 
@@ -53,11 +57,9 @@ $(document).ready(function () {
                 alert("Usuario agregado correctamente");
                 ListPersona();
             }
-        })
-            .done(function (response) {
+        });
 
-
-            });
+        $("#modalAgregarPersona").modal('toggle');
 
     });
 
@@ -67,21 +69,22 @@ $(document).ready(function () {
 
         var idCuenta = $(this).data('id');
 
+        recupera = $(this).data('id');
+
         $.ajax({
 
-            url: 'persona/persona',
+            url: 'persona/persona/' + recupera,
             cache: false,
             dataType: 'JSON',
             method: "GET",
-            data: {
-                idCuenta: idCuenta,
-            },
-            beforeSend: function () {
-
-            },
+            data: {},
             success: function (response) {
-
-                $("#idUsuario").val(response.idCuenta);
+                //alert("Hola");
+                $("#editar-nombre").val(response[0].Nombre);
+                $("#editar-primerApellido").val(response[0].Apellido);
+                $("#editar-usuario").val(response[0].Usuario);
+                $("#editar-correo").val(response[0].Correo);
+                $("#editar-password").val(response[0].Contrasena);
             }
 
         });
@@ -89,17 +92,16 @@ $(document).ready(function () {
     });
 
 
-
     //GUARDA EL USUARIO DESDE EL MODAL
     $('#editarUsuario').on('click', function () {
 
-        
+        var id = recupera;
+
         var Usuario = $('#editar-usuario');
         var Contrasena = $('#editar-password');
         var Correo = $('#editar-correo');
         var Nombre = $('#editar-nombre');
-        var Apellido = $('#editar-primerApellidoMedico');
-        var idCuenta = $('#idUsuario');
+        var Apellido = $('#editar-primerApellido');
 
         $.ajax({
 
@@ -112,16 +114,15 @@ $(document).ready(function () {
                 Correo: Correo.val(),
                 Nombre: Nombre.val(),
                 Apellido: Apellido.val(),
-                idCuenta: idCuenta.val()
+                idCuenta: id
             },
             success: function (response) {
                 alert("Usuario editado correctamente");
                 ListPersona();
             }
-        })
-            .done(function (response) {
+        });
 
-            });
+        $("#modalEditarPersona").modal('toggle');
 
     });
 
