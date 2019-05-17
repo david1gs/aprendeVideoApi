@@ -7,7 +7,7 @@ var userController = require('../controllers/user.controller' );
 
 
 router.get('/', (req, res, next) => {
-    res.sendFile( path.join(__dirname, '../views/login.html'));
+    res.sendFile( path.join(__dirname, '../views/admin.html'));
 });
 
 router.get('/home', function(request, response) {
