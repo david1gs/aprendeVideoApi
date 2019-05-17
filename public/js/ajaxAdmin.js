@@ -2,27 +2,56 @@ $(document).ready(function () {
 
     /////////////////////////////// GESTION USUARIOS
 
-    /**AGREGAR USUARIO */
-    $('#btnAgregarPersona').on('click', function () {
+    /**LISTAR USUARIO */
 
-        var nombre = $('#agregar-nombre');
-        var primerApellido = $('#agregar-primerApellido');
-        var usuario = $('#agregar-usuario');
-        var correo = $('#agregar-correo');
-        var password = $('#agregar-password');
+    ListPersona();
+
+    function ListPersona(){
+        $.ajax({
+            url: 'persona/persona',
+            method: "GET",
+            cache: false,
+            data: { },
+            success: function (response) {
+                $('#tableUsuarios').DataTable().clear().draw();
+                for(var i = 0; i < response.length; i++){
+                    $('#tableUsuarios').DataTable().row.add([
+                        response[i].Nombre,
+                        response[i].Apellido,
+                        response[i].Correo,
+                        response[i].Usuario,
+                        "<button class='btn btn-primary editarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-edit'></i> Editar</button><button class='btn btn-danger eliminarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-trash-alt'></i> Eliminar</button>"
+                    ]).draw(false);
+                }
+
+            },
+        });
+    }
+
+    /**AGREGAR USUARIO */
+    $('#agregarUsuario').on('click', function () {
+
+        var Usuario = $('#agregar-usuario');
+        var Contrasena = $('#agregar-password');
+        var Correo = $('#agregar-correo');
+        var Nombre = $('#agregar-nombre');
+        var Apellido = $('#agregar-primerApellido');
 
         $.ajax({
 
-            url: '',
+            url: 'persona/persona',
             cache: false,
             method: 'POST',
             data: {
-                key: '',
-                nombre: nombre.val(),
-                primerApellido: primerApellido.val(),
-                usuario: usuario.val(),
-                correo: correo.val(),
-                password: password.val()
+                Usuario: Usuario.val(),
+                Contrasena: Contrasena.val(),
+                Correo: Correo.val(),
+                Nombre: Nombre.val(),
+                Apellido: Apellido.val() 
+            },
+            success: function (response) {
+                alert("Usuario agregado correctamente");
+                ListPersona();
             }
         })
             .done(function (response) {
@@ -34,26 +63,25 @@ $(document).ready(function () {
 
     /**EDITAR USUARIO */
     //RECUPERA AL USUARIO PARA PONERLO EN EL MODAL
-    $('body').on('click', '.btnEditarPersona', function () {
+    $('body').on('click', '.editarPersona', function () {
 
-        var idUsuario = $(this).data('id');
+        var idCuenta = $(this).data('id');
 
         $.ajax({
 
-            url: '',
+            url: 'persona/persona',
             cache: false,
             dataType: 'JSON',
-            method: "POST",
+            method: "GET",
             data: {
-                key: '',
-                id: idUsuario,
+                idCuenta: idCuenta,
             },
             beforeSend: function () {
 
             },
             success: function (response) {
 
-                $("#idUsuario").val(response.id);
+                $("#idUsuario").val(response.idCuenta);
             }
 
         });
@@ -65,38 +93,40 @@ $(document).ready(function () {
     //GUARDA EL USUARIO DESDE EL MODAL
     $('#editarUsuario').on('click', function () {
 
-        var idUsuario = $('#idUsuario');
-
-        var nombre = $('#editar-nombre');
-        var primerApellido = $('#editar-primerApellidoMedico');
-        var usuario = $('#editar-usuario');
-        var correo = $('#editar-correo');
-        var password = $('#editar-password');
+        
+        var Usuario = $('#editar-usuario');
+        var Contrasena = $('#editar-password');
+        var Correo = $('#editar-correo');
+        var Nombre = $('#editar-nombre');
+        var Apellido = $('#editar-primerApellidoMedico');
+        var idCuenta = $('#idUsuario');
 
         $.ajax({
 
-            url: '',
+            url: 'persona/persona',
             cache: false,
-            method: 'POST',
+            method: 'PUT',
             data: {
-                key: '',
-                idUsuario: idUsuario.val(),
-                nombre: nombre.val(),
-                primerApellido: primerApellido.val(),
-                usuario: usuario.val(),
-                correo: correo.val(),
-                password: password.val()
+                Usuario: Usuario.val(),
+                Contrasena: Contrasena.val(),
+                Correo: Correo.val(),
+                Nombre: Nombre.val(),
+                Apellido: Apellido.val(),
+                idCuenta: idCuenta.val()
+            },
+            success: function (response) {
+                alert("Usuario editado correctamente");
+                ListPersona();
             }
         })
             .done(function (response) {
-
 
             });
 
     });
 
     /** ELIMINAR USUARIO */
-    $('body').on('click', '.btnEliminarUsuario', function () {
+    $('body').on('click', '.eliminarPersona', function () {
 
         var idUsuario = $(this).data('id');
 
@@ -114,15 +144,15 @@ $(document).ready(function () {
 
                     $.ajax({
 
-                        url: '',
+                        url: 'persona/persona',
                         cache: false,
-                        method: 'POST',
+                        method: 'DELETE',
                         data: {
-                            key: '',
-                            idUsuario: idUsuario
+                            idCuenta : idUsuario
                         },
                         success: function (response) {
-
+                            alert("Usuario correctamente eliminado");
+                            ListPersona();
                         }
 
 

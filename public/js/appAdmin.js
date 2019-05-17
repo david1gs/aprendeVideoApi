@@ -1,51 +1,5 @@
 $(document).ready(function () {
 
-    ListPersona();
-
-    function ListPersona(){
-        $.ajax({
-            url: 'persona/persona',
-            method: "GET",
-            cache: false,
-            data: { },
-            success: function (response) {
-                $('#tableUsuarios').DataTable().clear().draw();
-                for(var i = 0; i < response.length; i++){
-                    $('#tableUsuarios').DataTable().row.add([
-                        response[i].Nombre,
-                        response[i].Apellido,
-                        response[i].Correo,
-                        response[i].Usuario,
-                        "<button class='btn btn-primary editarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-edit'></i> Editar</button><button class='btn btn-danger eliminarPersona' data-id='" + response[i].idCuenta + "'><i class='fas fa-trash-alt'></i> Eliminar</button>"
-                    ]).draw(false);
-                }
-
-            },
-        });
-    }
-
-    
-    $("body").on('click', '.editarPersona', function(){
-        alert("Se dio de baja la cuenta " + $(this).data("id"));
-    });
-
-    $("body").on('click', '.eliminarPersona', function(){
-        var id = $(this).data("id");
-        alert("Se dio de baja la cuenta " + id);
-        
-        $.ajax({
-            url: 'persona/persona',
-            method: "DELETE",
-            cache: false,
-            data: { idCuenta : id },
-            success: function (response) {
-                ListPersona();
-            },
-        });
-    });
-
-    
-
 $('#table').DataTable({
     responsive: true,
     dom: 'lBfrtip',
