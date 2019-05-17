@@ -5,9 +5,27 @@ var config      = require('../helpers/config');
 var fs          = require('fs');
 var conexion    = mysql.createConnection(config);
 
+
+module.exports.getvideos = (req,res,next) => {
+  let sql = "select contenido.Nombre as contenidoNombre, contenido.ContenidoToken as Token, contenido.tipo as Tipo  from curso join tema join contenido where curso.idCurso = tema.idCurso and tema.idTema = contenido.idTema and tema.Nombre = ? and curso.Nombre = ?";
+  
+  let course = req.body.course;
+
+  let topic  = req.body.topic; 
+
+  
+    conexion.query(sql, [topic,course],(error,results,fields) => {
+        if(error){
+            res.json(error);
+        }
+        res.json(results);
+    });
+}
+
 module.exports.getvideo = (req,res,next) => {
 
-    let id = req.params.name;
+    let id    = req.params.name;
+    let token = req.params.token;
 
     const path = './videos/' + id;
 
@@ -39,7 +57,6 @@ module.exports.getvideo = (req,res,next) => {
         res.writeHead(200, head)
         fs.createReadStream(path).pipe(res)
       }
-
 }
 
 module.exports.postvideo = (req,res,next) => {

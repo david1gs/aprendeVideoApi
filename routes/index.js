@@ -11,13 +11,12 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/home', function(request, response) {
-	if (request.session.loggedin) {
-		response.render( 'upload', { request:request } );
+	if ( request.session.loggedin ) {
+		response.render( 'home', { request:request } );
 	} else {
 		response.send('Please login to view this page!');
 		response.end();
 	}
-	
 });
 
 router.post('/auth', userController.user_auth);

@@ -24,18 +24,24 @@ module.exports.user_auth = (req,res,next) => {
                 res.send(error);
             }
             
-            if(results.length > 0){
+            if( results.length > 0){
                 if( bcrypt.compareSync(pwd, results[0].Contrasena ) ){
                     session.loggedin = true;
                     session.username = username;
                     session.gc_maxlifetime = 10;
                     session.token    = hash;
+                    sql = 'INSERT INTO  sesion  ( idCuenta ,  Token ,  Last ) VALUES ( ? , ?, ?)'
+                    date = new Date();
+                    conexion.query(sql,[results[0].idCuenta, hash, date], (fail,succ, fields2) => {
+                        if (fail){
+                            res.send(error);
+                        }
+                    })
                     res.redirect('/home');
                 }
             } else {
-                res.send('Incorrect Username orcls Password');
+                res.send('Incorrect Username or  Password');
             }
-            
             res.end();
         });
     } else {

@@ -6,9 +6,10 @@ var router      = express.Router();
 
 var videoController = require('../controllers/video.controller');
 
-
-router.get('/:name', videoController.getvideo);
+router.get('/:token/:name', videoController.getvideo);
+router.post('/api', videoController.getvideos )
 router.post('/', videoController.postvideo);
+
 
 
 module.exports = router;
