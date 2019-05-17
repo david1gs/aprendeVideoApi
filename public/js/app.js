@@ -1,10 +1,5 @@
 $(document).ready(function () {
 
- $("#btnAgregarPersona").on('click', function(){
-     alert("Hola");
-    $("#modalAgregarPersona").modal('toggle');
- });
-
 $('#table').DataTable({
     responsive: true,
     dom: 'lBfrtip',
