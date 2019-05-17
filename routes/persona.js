@@ -3,9 +3,9 @@ var router = express.Router();
 var presonaController = require('../controllers/persona.controller');
 
 router.get('/persona', presonaController.persona_list);
-//router.get('/persona/:id', presonaController.product);
-//router.post('/persona', presonaController.product_save);
-//router.delete('/persona/:id', presonaController.product_delete);
-//router.put('/persona/:id', presonaController.product_update);
+router.get('/persona', presonaController.persona);
+router.post('/persona', presonaController.persona_save);
+router.delete('/persona', presonaController.persona_delete);
+router.put('/persona', presonaController.persona_update);
 
 module.exports = router;
